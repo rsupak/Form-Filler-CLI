@@ -1,0 +1,12 @@
+{
+    "AddressBook": [
+        "http://address-book-rsupak.herokuapp.com/entries/new",
+        {
+            "firstNameId": {"type":"#entry_firstname","entry": "Mark"},
+            "lastNameId": {"type":"#entry_lastname", "entry": "Jones"},
+            "phoneId": {"type":"#entry_phone", "entry": "5555434321"},
+            "emailId": {"type":"#entry_email", "entry":"mark.test@tester.com"},
+            "submitId": ".btn"
+        }
+    ]
+}
