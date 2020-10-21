@@ -2,11 +2,21 @@
     "AddressBook": [
         "http://address-book-rsupak.herokuapp.com/entries/new",
         {
-            "firstNameId": {"type":"#entry_firstname","entry": "Mark"},
-            "lastNameId": {"type":"#entry_lastname", "entry": "Jones"},
-            "phoneId": {"type":"#entry_phone", "entry": "5555434321"},
-            "emailId": {"type":"#entry_email", "entry":"mark.test@tester.com"},
-            "submitId": ".btn"
-        }
-    ]
+            "firstNameId": {"selector":"#entry_firstname","entry": "Mark"},
+            "lastNameId": {"selector":"#entry_lastname", "entry": "Jones"},
+            "phoneId": {"selector":"#entry_phone", "entry": "5555434321"},
+            "emailId": {"selector":"#entry_email", "entry":"mark.test@tester.com"}
+        },
+        {"submitId": ".btn"}
+    ],
+    "EngagementWebinar": [
+        "https://go.korbyt.com/master-employee-engagement-in-the-covid-era",
+        {
+            "firstNameId": {"selector": "[id='420142_224461pi_420142_224461']", "entry": "Rich"},
+            "lastNameId": {"selector": "[id='420142_224463pi_420142_224463']", "entry": "Supak"},
+            "companyId": {"selector": "[id='420142_224465pi_420142_224465']", "entry": "Korbyt"},
+            "emailId": {"selector": "[id='420142_224467pi_420142_224467']", "entry": "richard.supak@korbyt.com"}
+        },
+        {"submitId": ".submit"}
+    ] 
 }
