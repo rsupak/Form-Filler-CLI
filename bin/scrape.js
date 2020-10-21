@@ -37,14 +37,12 @@ const $ = cheerio.load(htmlFile);
   
 // });
 let title = $("head title")[0].children[0].data
-console.log(title)
-const configObj = {
-  "0": [
-    'http://address-book-rsupak.herokuapp.com/entries/new',
-    {},
-    {}
-  ],
-}
+// console.log(title)
+const configArray = [
+  'http://address-book-rsupak.herokuapp.com/entries/new',
+  {},
+  {}
+]
 
 $('input').each(
   function(index){  
@@ -54,15 +52,15 @@ $('input').each(
         let accessor = {}
         accessor["selector"] = "[id=" + cur.attr('id') + "]"
         accessor["entry"] = '';
-        configObj["0"][1][cur.attr('name')] = accessor
+        configArray[1][cur.attr('name')] = accessor
         // console.log(configObj["0"][1][cur.attr('name')])
       }
       if (cur.attr('type') == 'submit') {
-        configObj["0"][2]["submitId"] = ""
+        configArray[2]["submitId"] = ".submit"
       }
   }
 );
-
-// console.log(JSON.stringify(configObj))
-
-// console.log($('form_container cur[type=text]'))
+// console.log(configArray)
+const configFile = JSON.parse(fs.readFileSync('../config.json'));
+configFile[title.toLowerCase()] = configArray;
+fs.writeFileSync('../config.json', JSON.stringify(configFile, null, ' '));
