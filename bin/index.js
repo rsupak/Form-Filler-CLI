@@ -1,21 +1,22 @@
 #!/usr/bin/env node
 
-const { exitCode } = require('process');
 const puppeteer = require('puppeteer');
+const configFile = require('../config.json');
 
+/* configuration options for puppeteer */
 const chromeOptions = {
-  headless: false,
+  // headless: false,
   defaultViewport: null,
-  slowMo: 10,
+  // slowMo: 10,
 };
 
-const configFile = require('../config.json');
-const formIdentifier = process.argv[2];
-
+/* argument validation */
 if (!process.argv[2]) {
-  console.log("FormID Required");
+  console.log("Form Identifier Required");
+  console.log("fillform <form identifier>");
   process.exit(-1);
 }
+const formIdentifier = process.argv[2];
 
 const main = async () => {
   const browser = await puppeteer.launch(chromeOptions);
@@ -36,12 +37,10 @@ const main = async () => {
     await page.type(formInputs[field].selector, formInputs[field].entry);
   }
 
-  await page.click(configFile[formIdentifier][2].submitId);
+  await page.$eval('form', el => el.submit())
 
-  /* proof of concept screenshot */
-  // await page.screenshot({path: 'example.png'});
-
-  // await browser.close();
+  await browser.close();
 };
+
 
 main();
