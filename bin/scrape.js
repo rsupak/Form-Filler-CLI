@@ -1,12 +1,20 @@
+#!/usr/bin/env node
+
 var cheerio = require('cheerio');
 var fs = require('fs');
 var SaveToExistingDirectoryPlugin = require('website-scraper-existing-directory');
 var scrape = require('website-scraper');
 
-const AddressBook = 'http://address-book-rsupak.herokuapp.com/entries/new'
+/* check for html argument */
+if (!process.argv[2]) {
+  console.log("HTML Required");
+  process.exit(-1);
+}
+const URL = process.argv[2];
+
 let options = {
-  urls: [ AddressBook ],
-  directory: './html',
+  urls: [ URL ],
+  directory: '../lib/html',
   plugins: [ new SaveToExistingDirectoryPlugin() ],
   recursive: false,
   defaultFilename: "new.html",
@@ -20,30 +28,44 @@ scrape(options).then(result => {
 
 const buildConfig = query => {
   let $ = query;
-  let title = $('head title')[0].children[0].data;
+  let title = $('head title')[0].children[0].data.split(" ").slice(0, 2).join('');
   let configArray = [
-    'http://address-book-rsupak.herokuapp.com/entries/new',
+    URL,
     {},
     {}
   ]
   $('input').each(
     function(index){  
-        var cur = $(this);
+        let cur = $(this);
+        let label;
+        if ($("label[for='" + cur.attr('id') + "']")){
+          label = $("label[for='" + cur.attr('id') + "']");
+        }
+        // console.log(cur)
         // console.log('Type: ' + cur.attr('type') + 'Name: ' + cur.attr('name') + 'Value: ' + cur.val());
-        if (cur.attr('type') == 'text') {
+        let fieldType = ['text', 'email', 'password'];
+        if (fieldType.includes(cur.attr('type')) && !(cur.attr('name').includes('extra'))) {
           let accessor = {}
-          accessor["selector"] = "[id=" + cur.attr('id') + "]"
-          accessor["entry"] = '';
-          configArray[1][cur.attr('name')] = accessor
-          // console.log(configObj["0"][1][cur.attr('name')])
+          accessor["selector"] = "[id='" + cur.attr('id') + "']"
+          accessor["entry"] = 'test';
+          if (label) {
+            configArray[1][label.text().split(' ').join('')] = accessor;
+          } else {
+            configArray[1][cur.attr('name')] = accessor
+          }
         }
         if (cur.attr('type') == 'submit') {
-          configArray[2]["submitId"] = ".submit"
+          // console.log(cur)
+          if (cur.attr('value').toLowerCase().includes('register') || cur.attr('value').toLowerCase().includes('submit')) {
+            configArray[2]["submitId"] = cur.attr('class') ? '.' + cur.attr('class').split(' ')[0] : '.submit';
+          } else {
+            configArray[2]["submitId"] = ".btn";
+          }
         }
     }
   );
   
-  const configFile = JSON.parse(fs.readFileSync('../config.json'));
+  const configFile = JSON.parse(fs.readFileSync('config.json'));
   configFile[title.toLowerCase()] = configArray;
-  fs.writeFileSync('../config.json', JSON.stringify(configFile, null, ' '));
+  fs.writeFileSync('config.json', JSON.stringify(configFile, null, ' '));
 }

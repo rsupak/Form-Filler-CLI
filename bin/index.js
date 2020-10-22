@@ -2,8 +2,6 @@
 
 const { exitCode } = require('process');
 const puppeteer = require('puppeteer');
-const url = 'https://myaccount.rid.org/Public/Search/Member.aspx';
-
 
 const chromeOptions = {
   headless: false,
@@ -23,8 +21,6 @@ const main = async () => {
   const browser = await puppeteer.launch(chromeOptions);
   const page = await browser.newPage();
   await page.goto(configFile[formIdentifier][0]);
-  // await page.goto(url);
-  console.log(await page.title());
 
   /* login procedures (uncomment and fill if required) */
 
@@ -45,7 +41,7 @@ const main = async () => {
   /* proof of concept screenshot */
   // await page.screenshot({path: 'example.png'});
 
-  await browser.close();
+  // await browser.close();
 };
 
 main();

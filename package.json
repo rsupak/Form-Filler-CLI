@@ -10,7 +10,8 @@
   "author": "Rich Supak (richard.supak@korbyt.com)",
   "license": "MIT",
   "bin": {
-    "fillform": "./bin/index.js"
+    "fillform": "./bin/index.js",
+    "scrape": "./bin/scrape.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",

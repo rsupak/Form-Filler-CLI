@@ -1,26 +1,3 @@
 {
- "addressbook": [
-  "http://address-book-rsupak.herokuapp.com/entries/new",
-  {
-   "entry[firstname]": {
-    "selector": "[id=entry_firstname]",
-    "entry": ""
-   },
-   "entry[lastname]": {
-    "selector": "[id=entry_lastname]",
-    "entry": ""
-   },
-   "entry[phone]": {
-    "selector": "[id=entry_phone]",
-    "entry": ""
-   },
-   "entry[email]": {
-    "selector": "[id=entry_email]",
-    "entry": ""
-   }
-  },
-  {
-   "submitId": ".submit"
-  }
- ]
+
 }
